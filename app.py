@@ -12,7 +12,14 @@ app = Flask(__name__,
             template_folder='app/templates')
 
 # Configure database
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'sqlite:///cinemate.db')
+database_url = os.getenv('DATABASE_URL')
+if database_url and database_url.startswith("postgres://"):
+    # Render uses PostgreSQL, but SQLAlchemy requires "postgresql://"
+    database_url = database_url.replace("postgres://", "postgresql://", 1)
+    app.config['SQLALCHEMY_DATABASE_URI'] = database_url
+else:
+    # Fallback to SQLite for local development
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'sqlite:///cinemate.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Enable CORS
