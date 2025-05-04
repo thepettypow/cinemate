@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineMate - Movie & TV Series Manager</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="glass-panel">
+            <div class="logo">
+                <i class="fas fa-film"></i>
+                <h1>CineMate</h1>
+            </div>
+            <div class="theme-toggle">
+                <i class="fas fa-moon" id="theme-toggle-icon"></i>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main>
+            <!-- Sidebar -->
+            <aside class="sidebar glass-panel">
+                <nav>
+                    <ul>
+                        <li class="active" data-section="dashboard">
+                            <i class="fas fa-home"></i>
+                            <span>Dashboard</span>
+                        </li>
+                        <li data-section="movies">
+                            <i class="fas fa-film"></i>
+                            <span>Movies</span>
+                        </li>
+                        <li data-section="tv-shows">
+                            <i class="fas fa-tv"></i>
+                            <span>TV Shows</span>
+                        </li>
+                        <li data-section="watch-later">
+                            <i class="fas fa-clock"></i>
+                            <span>Watch Later</span>
+                        </li>
+                        <li data-section="search">
+                            <i class="fas fa-search"></i>
+                            <span>Search</span>
+                        </li>
+                        <li data-section="settings">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                        </li>
+                    </ul>
+                </nav>
+            </aside>
+
+            <!-- Content Area -->
+            <div class="content">
+                <!-- Dashboard Section -->
+                <section id="dashboard" class="active-section">
+                    <div class="section-header glass-panel">
+                        <h2>Dashboard</h2>
+                    </div>
+                    <div class="dashboard-stats">
+                        <div class="stat-card glass-panel">
+                            <i class="fas fa-film"></i>
+                            <div class="stat-info">
+                                <h3>Movies</h3>
+                                <p id="movie-count">0</p>
+                            </div>
+                        </div>
+                        <div class="stat-card glass-panel">
+                            <i class="fas fa-tv"></i>
+                            <div class="stat-info">
+                                <h3>TV Shows</h3>
+                                <p id="tv-count">0</p>
+                            </div>
+                        </div>
+                        <div class="stat-card glass-panel">
+                            <i class="fas fa-eye"></i>
+                            <div class="stat-info">
+                                <h3>Watched</h3>
+                                <p id="watched-count">0</p>
+                            </div>
+                        </div>
+                        <div class="stat-card glass-panel">
+                            <i class="fas fa-clock"></i>
+                            <div class="stat-info">
+                                <h3>Watch Later</h3>
+                                <p id="watch-later-count">0</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="recent-items">
+                        <div class="section-header glass-panel">
+                            <h3>Recently Added</h3>
+                        </div>
+                        <div class="items-grid" id="recent-items-grid">
+                            <!-- Recent items will be populated here -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Movies Section -->
+                <section id="movies">
+                    <div class="section-header glass-panel">
+                        <h2>Movies</h2>
+                        <button class="add-btn" id="add-movie-btn">
+                            <i class="fas fa-plus"></i> Add Movie
+                        </button>
+                    </div>
+                    <div class="filter-bar glass-panel">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="movie-search" placeholder="Search movies...">
+                        </div>
+                        <div class="filters">
+                            <select id="movie-genre-filter">
+                                <option value="">All Genres</option>
+                                <!-- Genres will be populated dynamically -->
+                            </select>
+                            <select id="movie-year-filter">
+                                <option value="">All Years</option>
+                                <!-- Years will be populated dynamically -->
+                            </select>
+                            <select id="movie-watched-filter">
+                                <option value="">All Status</option>
+                                <option value="true">Watched</option>
+                                <option value="false">Not Watched</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="items-grid" id="movies-grid">
+                        <!-- Movies will be populated here -->
+                    </div>
+                </section>
+
+                <!-- TV Shows Section -->
+                <section id="tv-shows">
+                    <div class="section-header glass-panel">
+                        <h2>TV Shows</h2>
+                        <button class="add-btn" id="add-tv-btn">
+                            <i class="fas fa-plus"></i> Add TV Show
+                        </button>
+                    </div>
+                    <div class="filter-bar glass-panel">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="tv-search" placeholder="Search TV shows...">
+                        </div>
+                        <div class="filters">
+                            <select id="tv-genre-filter">
+                                <option value="">All Genres</option>
+                                <!-- Genres will be populated dynamically -->
+                            </select>
+                            <select id="tv-year-filter">
+                                <option value="">All Years</option>
+                                <!-- Years will be populated dynamically -->
+                            </select>
+                        </div>
+                    </div>
+                    <div class="items-grid" id="tv-shows-grid">
+                        <!-- TV Shows will be populated here -->
+                    </div>
+                </section>
+
+                <!-- Watch Later Section -->
+                <section id="watch-later">
+                    <div class="section-header glass-panel">
+                        <h2>Watch Later</h2>
+                    </div>
+                    <div class="filter-bar glass-panel">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="watch-later-search" placeholder="Search watch later...">
+                        </div>
+                        <div class="filters">
+                            <select id="watch-later-type-filter">
+                                <option value="">All Types</option>
+                                <option value="movie">Movies</option>
+                                <option value="tv">TV Shows</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="items-grid" id="watch-later-grid">
+                        <!-- Watch Later items will be populated here -->
+                    </div>
+                </section>
+
+                <!-- Search Section -->
+                <section id="search">
+                    <div class="section-header glass-panel">
+                        <h2>Search</h2>
+                    </div>
+                    <div class="search-container glass-panel">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="omdb-search" placeholder="Search for movies and TV shows...">
+                        </div>
+                        <div class="search-type">
+                            <label>
+                                <input type="radio" name="search-type" value="" checked> All
+                            </label>
+                            <label>
+                                <input type="radio" name="search-type" value="movie"> Movies
+                            </label>
+                            <label>
+                                <input type="radio" name="search-type" value="series"> TV Shows
+                            </label>
+                        </div>
+                        <button id="search-btn" class="primary-btn">Search</button>
+                    </div>
+                    <div class="search-results" id="search-results">
+                        <!-- Search results will be populated here -->
+                    </div>
+                </section>
+
+                <!-- Settings Section -->
+                <section id="settings">
+                    <div class="section-header glass-panel">
+                        <h2>Settings</h2>
+                    </div>
+                    <div class="settings-container glass-panel">
+                        <div class="setting-group">
+                            <h3>Appearance</h3>
+                            <div class="setting-item">
+                                <span>Theme</span>
+                                <div class="theme-selector">
+                                    <button class="theme-btn" data-theme="light">Light</button>
+                                    <button class="theme-btn active" data-theme="dark">Dark</button>
+                                    <button class="theme-btn" data-theme="system">System</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="setting-group">
+                            <h3>Data Management</h3>
+                            <div class="setting-item">
+                                <span>Export Data</span>
+                                <button id="export-data-btn" class="secondary-btn">Export</button>
+                            </div>
+                            <div class="setting-item">
+                                <span>Import Data</span>
+                                <input type="file" id="import-file" accept=".json" style="display: none;">
+                                <button id="import-data-btn" class="secondary-btn">Import</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal Templates -->
+    <div class="modal" id="movie-modal">
+        <div class="modal-content glass-panel">
+            <div class="modal-header">
+                <h2 id="movie-modal-title">Add Movie</h2>
+                <button class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="movie-form">
+                    <input type="hidden" id="movie-id">
+                    <input type="hidden" id="movie-imdb-id">
+                    
+                    <div class="form-group">
+                        <label for="movie-title">Title</label>
+                        <input type="text" id="movie-title" required>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="movie-year">Year</label>
+                            <input type="number" id="movie-year">
+                        </div>
+                        <div class="form-group">
+                            <label for="movie-genre">Genre</label>
+                            <input type="text" id="movie-genre">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="movie-director">Director</label>
+                        <input type="text" id="movie-director">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="movie-poster">Poster URL</label>
+                        <input type="url" id="movie-poster">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="movie-plot">Plot</label>
+                        <textarea id="movie-plot" rows="3"></textarea>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="movie-rating">Rating</label>
+                            <input type="number" id="movie-rating" min="0" max="10" step="0.1">
+                        </div>
+                        <div class="form-group checkbox-group">
+                            <label>
+                                <input type="checkbox" id="movie-watched">
+                                Watched
+                            </label>
+                        </div>
+                        <div class="form-group checkbox-group">
+                            <label>
+                                <input type="checkbox" id="movie-watch-later">
+                                Watch Later
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="movie-notes">Notes</label>
+                        <textarea id="movie-notes" rows="2"></textarea>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="secondary-btn" id="movie-cancel-btn">Cancel</button>
+                        <button type="submit" class="primary-btn">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="tv-modal">
+        <div class="modal-content glass-panel">
+            <div class="modal-header">
+                <h2 id="tv-modal-title">Add TV Show</h2>
+                <button class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="tv-form">
+                    <input type="hidden" id="tv-id">
+                    <input type="hidden" id="tv-imdb-id">
+                    
+                    <div class="form-group">
+                        <label for="tv-title">Title</label>
+                        <input type="text" id="tv-title" required>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="tv-year">Year</label>
+                            <input type="number" id="tv-year">
+                        </div>
+                        <div class="form-group">
+                            <label for="tv-genre">Genre</label>
+                            <input type="text" id="tv-genre">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="tv-creator">Creator</label>
+                        <input type="text" id="tv-creator">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="tv-poster">Poster URL</label>
+                        <input type="url" id="tv-poster">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="tv-plot">Plot</label>
+                        <textarea id="tv-plot" rows="3"></textarea>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="tv-total-episodes">Total Episodes</label>
+                            <input type="number" id="tv-total-episodes" min="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="tv-rating">Rating</label>
+                            <input type="number" id="tv-rating" min="0" max="10" step="0.1">
+                        </div>
+                        <div class="form-group checkbox-group">
+                            <label>
+                                <input type="checkbox" id="tv-watch-later">
+                                Watch Later
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="tv-notes">Notes</label>
+                        <textarea id="tv-notes" rows="2"></textarea>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="secondary-btn" id="tv-cancel-btn">Cancel</button>
+                        <button type="submit" class="primary-btn">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="tv-details-modal">
+        <div class="modal-content glass-panel wide-modal">
+            <div class="modal-header">
+                <h2 id="tv-details-title">TV Show Details</h2>
+                <button class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="tv-details-container">
+                    <div class="tv-info">
+                        <div class="tv-poster">
+                            <img id="tv-details-poster" src="" alt="TV Show Poster">
+                        </div>
+                        <div class="tv-metadata">
+                            <h3 id="tv-details-title-text"></h3>
+                            <p><strong>Year:</strong> <span id="tv-details-year"></span></p>
+                            <p><strong>Genre:</strong> <span id="tv-details-genre"></span></p>
+                            <p><strong>Creator:</strong> <span id="tv-details-creator"></span></p>
+                            <p><strong>Progress:</strong> <span id="tv-details-progress"></span></p>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="tv-details-progress-bar"></div>
+                            </div>
+                            <p><strong>Rating:</strong> <span id="tv-details-rating"></span></p>
+                            <p><strong>Notes:</strong> <span id="tv-details-notes"></span></p>
+                        </div>
+                    </div>
+                    <div class="tv-episodes">
+                        <h3>Episodes</h3>
+                        <div class="episodes-list" id="episodes-list">
+                            <!-- Episodes will be populated here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="movie-details-modal">
+        <div class="modal-content glass-panel">
+            <div class="modal-header">
+                <h2 id="movie-details-title">Movie Details</h2>
+                <button class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="movie-details-container">
+                    <div class="movie-poster">
+                        <img id="movie-details-poster" src="" alt="Movie Poster">
+                        <div class="movie-watched-badge" id="movie-watched-badge">
+                            <i class="fas fa-eye"></i> Watched
+                        </div>
+                    </div>
+                    <div class="movie-metadata">
+                        <h3 id="movie-details-title-text"></h3>
+                        <p><strong>Year:</strong> <span id="movie-details-year"></span></p>
+                        <p><strong>Genre:</strong> <span id="movie-details-genre"></span></p>
+                        <p><strong>Director:</strong> <span id="movie-details-director"></span></p>
+                        <p><strong>Rating:</strong> <span id="movie-details-rating"></span></p>
+                        <p><strong>Plot:</strong> <span id="movie-details-plot"></span></p>
+                        <p><strong>Notes:</strong> <span id="movie-details-notes"></span></p>
+                        <div class="movie-actions">
+                            <button class="primary-btn" id="movie-toggle-watched-btn">
+                                <i class="fas fa-eye"></i> Mark as Watched
+                            </button>
+                            <button class="secondary-btn" id="movie-edit-btn">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                            <button class="danger-btn" id="movie-delete-btn">
+                                <i class="fas fa-trash"></i> Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast">
+        <div class="toast-content">
+            <i class="fas fa-check-circle toast-icon"></i>
+            <div class="toast-message">Operation successful!</div>
+        </div>
+        <div class="toast-progress"></div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
